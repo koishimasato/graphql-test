@@ -1,12 +1,18 @@
 Mutations::DestroyPostMutation = GraphQL::Relay::Mutation.define do
   name "DestroyPostMutation"
-  # TODO: define return fields
-  # return_field :post, Types::PostType
 
-  # TODO: define arguments
-  # input_field :name, !types.String
+  return_field :post, Types::PostType
 
-  resolve ->(obj, args, ctx) {
-    # TODO: define resolve function
+  input_field :id, !types.ID
+
+  resolve ->(obj, inputs, ctx) {
+    begin
+      post = ctx[:current_user].posts.find(inputs.id)
+      post.destroy
+    rescue => e
+      return GraphQL::ExecutionError.new(e.message)
+    end
+
+    { post: post }
   }
 end
