@@ -1,8 +1,10 @@
 Types::UserType = GraphQL::ObjectType.define do
   name "User"
-  field :id, !types.ID
-  field :name, !types.String
-  field :email, !types.String
-  connection :posts, !Types::PostType.connection_type
+  description 'ユーザー'
+
+  field :id, !types.ID, 'ID'
+  field :name, !types.String, '名前'
+  field :email, !types.String, 'メールアドレス'
+  connection :posts, !Types::PostType.connection_type, '投稿リスト'
 end
 
